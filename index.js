@@ -159,8 +159,8 @@ var ResponseBuilder = function () {
     key: 'attach',
     value: function attach(data) {
       var fname = util.getString(this.attachFile, data, this.req);
-      if (!util.isString(fname)) fname = 'attachement';
-      this.res.setHeader('Content-Disposition', 'attachement; filename="' + fname + '"');
+      if (!util.isString(fname)) fname = 'attachment';
+      this.res.setHeader('Content-Disposition', 'attachment; filename="' + fname + '"');
       return util.stringify(data, true);
     }
   }, {
