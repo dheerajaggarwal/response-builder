@@ -51,7 +51,8 @@ var options = {
 var AllowedOptions = Object.keys(options);
 
 var _callIfSuccess = function callIfSuccess(next, err, success, extra) {
-  if (err) this.error(err, success, extra);else this.success(success, next);
+  if (err) this.error(err, success, extra);
+  else this.success(success, extra, next);
 };
 
 var all = function all(err, result, extra) {
@@ -198,10 +199,15 @@ var ResponseBuilder = function () {
     }
   }, {
     key: 'success',
-    value: function success(result, extra) {
+    value: function success(result, extra, next) {
       var res = result;
-      if (typeof extra === 'function') {
-        extra(res);
+      if (typeof extra === 'function' || typeof next === 'function') {
+        var fn = next || extra;
+        if(next){
+          fn(res, extra);
+        } else {
+          fn(res);
+        }
       } else if (typeof this.successCallback === 'function') {
         this.successCallback(res, extra);
       } else {
